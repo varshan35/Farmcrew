@@ -36,7 +36,7 @@ public class Payment
     private String laborUpiId;
     private String agentUpiId;
 
-    private PaymentMethod paymentMethod; // ✅ CASH or UPI
+    private PaymentMethod paymentMethod; // CASH or UPI
     private String transactionId;        // optional, for UPI reference
     private PaymentStatus paymentStatus; // PENDING, COMPLETED, FAILED
 
