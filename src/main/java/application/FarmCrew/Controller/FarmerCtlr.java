@@ -12,6 +12,7 @@ import java.util.Optional;
 
 
 @RestController
+@CrossOrigin("*")
 //@RequestMapping("/api/farmers")
 public class FarmerCtlr {
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin("*")
 //@RequestMapping("/api/works")
 public class WorkCtlr
 {
@@ -48,22 +49,4 @@ public class WorkCtlr
         return updated .map(work -> new ResponseEntity<>(work, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-    /* @PutMapping("/Payment/{id}")
-    public ResponseEntity<?> Payment(@RequestBody Work obj, @PathVariable Integer id)
-    {
-        var payment=workRepository.findById(id).orElseThrow(()->new RuntimeException("not found"));
-        payment.setPaymentStatus("Sent");
-        workRepository.save(payment);
-        return new ResponseEntity<>("Payment send successfully",HttpStatus.OK);
-    }
-
-    @PutMapping("/Updatepaymentdetails/{id}")
-    public ResponseEntity<?> Updatepaymentdetails(@PathVariable Integer id)
-    {
-        var payment=workRepository.findById(id).orElseThrow(()->new RuntimeException("not found"));
-        payment.setPaymentstatus("Recieved");
-        workRepository.save(payment);
-        return new ResponseEntity<>("Payment Recieved successfully",HttpStatus.OK);
-    }*/
 }

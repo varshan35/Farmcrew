@@ -3,6 +3,7 @@ import application.FarmCrew.Entity.Labour;
 import application.FarmCrew.Repository.LabourRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -12,10 +13,14 @@ public class LabourService
     @Autowired
     private LabourRepo labourRepo;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public Labour registerLabour(String name, String pwd)
     {
         Labour labour = new Labour();
         labour.setName(name);
+        // hash the password before saving
+        labour.setPwd(passwordEncoder.encode(pwd));
         labour.setPwd(pwd);
         return labourRepo.save(labour);
     }

@@ -7,6 +7,8 @@ import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 
 @Data
@@ -14,16 +16,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "farmer")
 public class Farmer {
-    public ObjectId getId() {
-        return id;
-    }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
+    }
+
+    public ObjectId getFarmer_id() {
+        return farmer_id;
+    }
+
+    public void setFarmer_id(ObjectId farmer_id) {
+        this.farmer_id = farmer_id;
     }
 
     public void setName(String name) {
@@ -85,10 +89,6 @@ public class Farmer {
     public void setAadhar(String aadhar) {
         this.aadhar = aadhar;
     }
-
-    @Id
-    private ObjectId id;
-
     public String getGender() {
         return gender;
     }
@@ -96,6 +96,20 @@ public class Farmer {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+    public String getFarmer_upiId() {
+        return farmer_upiId;
+    }
+
+    public void setFarmer_upiId(String farmer_upiId) {
+        this.farmer_upiId = farmer_upiId;
+    }
+
+
+    @Id
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId farmer_id;
+
 
     @NonNull
     private String name;
@@ -107,4 +121,5 @@ public class Farmer {
     private String address;
     private String pan;
     private String aadhar;
+    private String farmer_upiId;
 }

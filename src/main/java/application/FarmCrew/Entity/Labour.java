@@ -7,6 +7,8 @@ import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 @Data
 @AllArgsConstructor
@@ -15,18 +17,32 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Labour
 {
     @Id
-    private ObjectId id;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId laborId;
 
-    public ObjectId getId() {
-        return id;
-    }
+    @NonNull
+    private String name;
+    private String gender;
+    private String pwd;
+    private String role;
+    private int age;
+    private String contact;
+    private String place;
+    private String pan;
+    private String aadhar;
+    private String labor_upiId;
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
+    }
+
+    public ObjectId getLaborId() {
+        return laborId;
+    }
+
+    public void setLaborId(ObjectId laborId) {
+        this.laborId = laborId;
     }
 
     public void setName(String name) {
@@ -90,16 +106,15 @@ public class Labour
         this.aadhar = aadhar;
     }
 
-    @NonNull
-    private String name;
-    private String gender;
-    private String pwd;
-    private String role;
-    private int age;
-    private String contact;
-    private String place;
-    private String pan;
-    private String aadhar;
+
+    public String getLabor_upiId() {
+        return labor_upiId;
+    }
+
+    public void setLabor_upiId(String labor_upiId) {
+        this.labor_upiId = labor_upiId;
+    }
+
     public String getPlace() {
         return place;
     }

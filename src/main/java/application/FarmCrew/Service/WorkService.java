@@ -6,8 +6,6 @@ import application.FarmCrew.Repository.WorkRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -45,28 +43,10 @@ public class WorkService {
             existing.setDuration(newData.getDuration());
             existing.setTypeOfWork(newData.getTypeOfWork());
             existing.setPaymentStatus(newData.getPaymentStatus());
-            existing.setStatus(newData.getStatus());
+            existing.setWorkStatus(newData.getWorkStatus());
             Work saved = workRepository.save(existing);
             return Optional.of(saved);
         }
         return Optional.empty();
     }
-
-    /*@PutMapping("/Payment/{id}")
-    public ResponseEntity<?> Payment(@RequestBody Work obj, @PathVariable Integer id)
-    {
-        var payment=workRepository.findById(id).orElseThrow(()->new RuntimeException("not found"));
-        payment.setPaymentStatus("Sent");
-        workRepository.save(payment);
-        return new ResponseEntity<>("Payment send successfully",HttpStatus.OK);
-    }
-
-    @PutMapping("/Updatepaymentdetails/{id}")
-    public ResponseEntity<?> Updatepaymentdetails(@PathVariable Integer id)
-    {
-        var payment=workRepository.findById(id).orElseThrow(()->new RuntimeException("not found"));
-        payment.setPaymentstatus("Recieved");
-        workRepository.save(payment);
-        return new ResponseEntity<>("Payment Recieved successfully",HttpStatus.OK);
-    }*/
 }

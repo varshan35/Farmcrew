@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface FarmerRepo extends MongoRepository<Farmer, ObjectId>
 {
-    List<Farmer> findByName(String name);
-
+    Optional<Farmer> findByName(String name);
 }

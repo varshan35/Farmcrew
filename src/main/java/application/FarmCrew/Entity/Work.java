@@ -6,6 +6,8 @@ import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 
 @Data
@@ -13,18 +15,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "work")
 public class Work {
     @Id
-    private ObjectId id;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId workId;
 
-    public ObjectId getId() {
-        return id;
-    }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
 
     public ObjectId getFarmerId() {
         return farmerId;
+    }
+
+    public ObjectId getWorkId() {
+        return workId;
+    }
+
+    public void setWorkId(ObjectId workId) {
+        this.workId = workId;
     }
 
     public void setFarmerId(ObjectId farmerId) {
@@ -47,12 +52,12 @@ public class Work {
         this.typeOfWork = typeOfWork;
     }
 
-    public WorkStatus getStatus() {
-        return status;
+    public WorkStatus getWorkStatus() {
+        return workStatus;
     }
 
-    public void setStatus(WorkStatus status) {
-        this.status = status;
+    public void setWorkStatus(WorkStatus workStatus) {
+        this.workStatus = workStatus;
     }
 
     public PaymentStatus getPaymentStatus() {
@@ -64,12 +69,13 @@ public class Work {
     }
 
     @NonNull
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId farmerId;
     @NonNull
     String duration;
     private String typeOfWork;
     @NonNull
-    private WorkStatus status;
+    private WorkStatus workStatus;
     @NonNull
     private PaymentStatus paymentStatus;
 }
