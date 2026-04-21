@@ -7,8 +7,8 @@ import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import tools.jackson.databind.annotation.JsonSerialize;
-import tools.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.util.List;
 
@@ -30,8 +30,6 @@ public class Agent
     private double commissionRate; // percentage
     private double totalEarnings;
     private List<String> connectedFarmers;
-    private List<String> connectedLabors;
-    private String agent_upiId;
 
     public ObjectId getAgentId() {
         return agentId;
@@ -40,12 +38,13 @@ public class Agent
     public void setAgentId(ObjectId agentId) {
         this.agentId = agentId;
     }
-    public String getAgent_upiId() {
-        return agent_upiId;
+
+    public String getName() {
+        return name;
     }
 
-    public void setAgent_upiId(String agent_upiId) {
-        this.agent_upiId = agent_upiId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPwd() {
@@ -54,14 +53,6 @@ public class Agent
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getContactInfo() {
@@ -104,6 +95,15 @@ public class Agent
         this.connectedLabors = connectedLabors;
     }
 
+    public String getAgent_upiId() {
+        return agent_upiId;
+    }
 
+    public void setAgent_upiId(String agent_upiId) {
+        this.agent_upiId = agent_upiId;
+    }
+
+    private List<String> connectedLabors;
+    private String agent_upiId;
 
 }

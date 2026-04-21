@@ -12,44 +12,60 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin("*")
-//@RequestMapping("/api/farmers")
+//@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
+//@RequestMapping("/farmers")
 public class FarmerCtlr {
 
     @Autowired
-    private  FarmerRepo farmerRepository;
-    @Autowired
-   private FarmerService farmerService;
+    private FarmerService farmerService;
 
-//to register the farmer
+    // Register
     @PostMapping("/register")
-    public Farmer registerFarmer(@RequestParam String name, @RequestParam String pwd)
-    {
+    public Farmer registerFarmer(
+            @RequestParam String name,
+            @RequestParam String pwd) {
         return farmerService.registerFarmer(name, pwd);
-    }//test done
+    }
 
-    //to update farmer profile
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Farmer> updateFarmer(@PathVariable ObjectId id, @RequestBody Farmer updatedData)
-    {
+    @GetMapping("/login")
+    public ResponseEntity<Farmer> login(@RequestParam String name,
+                                        @RequestParam String pwd) {
+
+        Farmer farmer = farmerService.login(name, pwd);
+
+        if (farmer != null) {
+            return ResponseEntity.ok(farmer);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    // Update by id
+    @PutMapping("/{id}")
+    public ResponseEntity<Farmer> updateFarmer(@PathVariable ObjectId id,
+                                               @RequestBody Farmer updatedData) {
+
         Optional<Farmer> updated = farmerService.updateFarmer(id, updatedData);
-        return updated .map(farmer -> new ResponseEntity<>(farmer, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }//test done
 
-    //get farmer by id
-@GetMapping("/getById/{id}")
-    public ResponseEntity<Farmer> getById(@PathVariable ObjectId id)
-    {
-        Optional<Farmer> farmer = farmerService.getFarmerById(id);
-        return farmer .map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+        return updated
+                .map(f -> new ResponseEntity<>(f, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }//test done
+    }
 
-    //delete farmer by id
-    @DeleteMapping("/deleteById/{id}") public ResponseEntity<Void> delete(@PathVariable ObjectId id)
-    {
+    // Get by id
+    @GetMapping("/{id}")
+    public ResponseEntity<Farmer> getById(@PathVariable ObjectId id) {
+
+        return farmerService.getFarmerById(id)
+                .map(f -> new ResponseEntity<>(f, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    // Delete by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable ObjectId id) {
         farmerService.deleteFarmer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }//test done
+    }
 }

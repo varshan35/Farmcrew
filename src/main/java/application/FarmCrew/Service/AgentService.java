@@ -15,7 +15,9 @@ public class AgentService
     @Autowired
     private AgentRepo agentRepo;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Agent registerAgent(Agent agent) {
         agent.setPwd(passwordEncoder.encode(agent.getPwd()));

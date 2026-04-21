@@ -14,7 +14,9 @@ public class FarmerService
     @Autowired
     private FarmerRepo farmerRepo;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+   // private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Farmer registerFarmer(String name, String pwd) {
         Farmer farmer = new Farmer();
@@ -26,10 +28,11 @@ public class FarmerService
         return farmerRepo.save(farmer);
     }
 
-    public boolean login(String name, String rawPassword) {
-        Farmer farmer = farmerRepo.findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("Farmer not found"));
-        return passwordEncoder.matches(rawPassword, farmer.getPwd());
+    public Farmer login(String name, String rawPassword) {
+
+        return farmerRepo.findByName(name)
+                .filter(farmer -> passwordEncoder.matches(rawPassword, farmer.getPwd()))
+                .orElse(null);
     }
 
     public Optional<Farmer> getFarmerById(ObjectId id)
@@ -44,7 +47,7 @@ public class FarmerService
         {
             Farmer existing = existingOpt.get();
             existing.setName(updatedData.getName());
-            existing.setPwd(updatedData.getPwd());
+            existing.setPwd(passwordEncoder.encode(updatedData.getPwd()));
             existing.setRole(updatedData.getRole());
             existing.setAge(updatedData.getAge());
             existing.setContact(updatedData.getContact());

@@ -1,4 +1,5 @@
 package application.FarmCrew.Service;
+import application.FarmCrew.Entity.Farmer;
 import application.FarmCrew.Entity.Labour;
 import application.FarmCrew.Repository.LabourRepo;
 import org.bson.types.ObjectId;
@@ -13,18 +14,33 @@ public class LabourService
     @Autowired
     private LabourRepo labourRepo;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Labour registerLabour(String name, String pwd)
     {
         Labour labour = new Labour();
         labour.setName(name);
-        // hash the password before saving
+
+        // store hashed password
         labour.setPwd(passwordEncoder.encode(pwd));
-        labour.setPwd(pwd);
+
         return labourRepo.save(labour);
     }
+    public Labour login(String name, String rawPassword) {
 
+        return labourRepo.findByName(name)
+                .filter(labour -> passwordEncoder.matches(rawPassword, labour.getPwd()))
+                .orElse(null);
+    }
+    public boolean login(String name, String rawPassword)
+    {
+        Labour labour = labourRepo.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+
+        return passwordEncoder.matches(rawPassword, labour.getPwd());
+    }
     public Optional<Labour> getLabourById(ObjectId id)
     {
         return labourRepo.findById(id);

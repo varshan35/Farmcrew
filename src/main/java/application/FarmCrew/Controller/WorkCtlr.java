@@ -12,41 +12,36 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-//@RequestMapping("/api/works")
-public class WorkCtlr
-{
+@RequestMapping("/works")
+public class WorkCtlr {
+
     @Autowired
     private WorkService workService;
 
-    @Autowired
-    private FarmerService farmerService;
-    //to post work
-    @PostMapping("/postWork/{id}")
-    public ResponseEntity<Work> postWork(@RequestBody Work work,@PathVariable ObjectId id)
-    {
-        Work saved = workService.saveWorkForFarmer(id, work);
-        if (saved == null)
-        {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    // Create work
+    @PostMapping("/{farmerId}")
+    public ResponseEntity<Work> postWork(@RequestBody Work work,
+                                         @PathVariable ObjectId farmerId) {
+
+        Work saved = workService.saveWorkForFarmer(farmerId, work);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
-        //return new ResponseEntity<>(HttpStatus.OK);
-    }//test done
-    //to delete work
-    @DeleteMapping("deleteWork/{id}")
-    public ResponseEntity<Void> deleteWork(@PathVariable ObjectId id)
-    {
+    }
+
+    // Delete work
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWork(@PathVariable ObjectId id) {
         workService.deleteWork(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
+    }
 
-    }//test done
+    // Update work
+    @PutMapping("/{id}")
+    public ResponseEntity<Work> updateWork(@PathVariable ObjectId id,
+                                           @RequestBody Work newData) {
 
-    //to edit work
-    @PutMapping("/updateWork/{id}")
-    public ResponseEntity<Work> updateWork(@PathVariable ObjectId id, @RequestBody Work newData)
-    {
-        Optional<Work> updated = workService.updateWork(id, newData);
-        return updated .map(work -> new ResponseEntity<>(work, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return workService.updateWork(id, newData)
+                .map(w -> ResponseEntity.ok(w))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

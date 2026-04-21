@@ -1,15 +1,17 @@
 package application.FarmCrew.Entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import tools.jackson.databind.annotation.JsonSerialize;
-import tools.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 
+@AllArgsConstructor
 @Data
 @NoArgsConstructor
 @Document(collection = "work")
@@ -17,12 +19,12 @@ public class Work {
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId workId;
-
-
-
-    public ObjectId getFarmerId() {
-        return farmerId;
-    }
+    @NonNull
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId farmerId;
+    @NonNull
+    String duration;
+    private String typeOfWork;
 
     public ObjectId getWorkId() {
         return workId;
@@ -30,6 +32,10 @@ public class Work {
 
     public void setWorkId(ObjectId workId) {
         this.workId = workId;
+    }
+
+    public ObjectId getFarmerId() {
+        return farmerId;
     }
 
     public void setFarmerId(ObjectId farmerId) {
@@ -68,12 +74,6 @@ public class Work {
         this.paymentStatus = paymentStatus;
     }
 
-    @NonNull
-    @JsonSerialize(using = ToStringSerializer.class)
-    private ObjectId farmerId;
-    @NonNull
-    String duration;
-    private String typeOfWork;
     @NonNull
     private WorkStatus workStatus;
     @NonNull

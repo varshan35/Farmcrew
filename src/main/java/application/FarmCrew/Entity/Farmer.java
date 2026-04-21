@@ -7,8 +7,8 @@ import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import tools.jackson.databind.annotation.JsonSerialize;
-import tools.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 
 @Data
@@ -16,12 +16,6 @@ import tools.jackson.databind.ser.std.ToStringSerializer;
 @NoArgsConstructor
 @Document(collection = "farmer")
 public class Farmer {
-
-
-    public String getName() {
-        return name;
-    }
-
     public ObjectId getFarmer_id() {
         return farmer_id;
     }
@@ -30,8 +24,20 @@ public class Farmer {
         this.farmer_id = farmer_id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getPwd() {
@@ -89,13 +95,6 @@ public class Farmer {
     public void setAadhar(String aadhar) {
         this.aadhar = aadhar;
     }
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
     public String getFarmer_upiId() {
         return farmer_upiId;
@@ -104,7 +103,6 @@ public class Farmer {
     public void setFarmer_upiId(String farmer_upiId) {
         this.farmer_upiId = farmer_upiId;
     }
-
 
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
