@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 //@CrossOrigin("*")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/labours")
 public class LabourCtlr {
 
@@ -28,16 +28,16 @@ public class LabourCtlr {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<Labor> login(@RequestParam String name,
+    public ResponseEntity<Labour> login(@RequestParam String name,
                                         @RequestParam String pwd) {
 
-        Farmer farmer = labourService.login(name, pwd);
+        Labour labour = labourService.login(name, pwd);
 
-        if (farmer != null) {
-            return ResponseEntity.ok(Labour);
+        if (labour != null) {
+            return ResponseEntity.ok(labour);
+        } else {
+            return ResponseEntity.status(401).build();
         }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     // Get labor by id
     @GetMapping("/{id}")

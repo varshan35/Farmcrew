@@ -13,8 +13,8 @@ import java.util.Optional;
 
 @RestController
 //@CrossOrigin("*")
-@CrossOrigin(origins = "http://localhost:3000")
-//@RequestMapping("/farmers")
+@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/farmers")
 public class FarmerCtlr {
 
     @Autowired

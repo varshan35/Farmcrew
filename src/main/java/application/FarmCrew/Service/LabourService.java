@@ -5,6 +5,7 @@ import application.FarmCrew.Repository.LabourRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public class LabourService
     private LabourRepo labourRepo;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Labour registerLabour(String name, String pwd)
@@ -34,13 +35,13 @@ public class LabourService
                 .filter(labour -> passwordEncoder.matches(rawPassword, labour.getPwd()))
                 .orElse(null);
     }
-    public boolean login(String name, String rawPassword)
-    {
-        Labour labour = labourRepo.findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
-
-        return passwordEncoder.matches(rawPassword, labour.getPwd());
-    }
+//    public boolean login(String name, String rawPassword)
+//    {
+//        Labour labour = labourRepo.findByName(name)
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+//
+//        return passwordEncoder.matches(rawPassword, labour.getPwd());
+//    }
     public Optional<Labour> getLabourById(ObjectId id)
     {
         return labourRepo.findById(id);

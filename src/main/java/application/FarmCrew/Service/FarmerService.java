@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import application.FarmCrew.Repository.FarmerRepo;
 import org.bson.types.ObjectId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,8 @@ public class FarmerService
 {
     @Autowired
     private FarmerRepo farmerRepo;
-
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
    // private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Farmer registerFarmer(String name, String pwd) {
